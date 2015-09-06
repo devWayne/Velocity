@@ -1,0 +1,23 @@
+{
+  "name": "vessel-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devWayne/Vessel.git"
+  },
+  "author": "Jarvan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/devWayne/Vessel/issues"
+  },
+  "homepage": "https://github.com/devWayne/Vessel#readme",
+  "dependencies": {
+    "express": "^4.13.3",
+    "handlebars": "^4.0.2"
+  }
+}
