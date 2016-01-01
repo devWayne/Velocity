@@ -1,21 +1,34 @@
-var fs = require('fs');
+var koa = require('koa');
+var app = koa();
+var path = require('path');
+// Must be used before any router is used
+var render = require('koa-ejs');
 
-//third party
-var express = require('express');
-var handlebars = require('handlebars');
+var rt = require('koa-route');
 
-
-var app = express(); // the main app
-
-app.get('*',function(req, res) {
-  console.log(req._parsedUrl.pathname);
-  res.set('Content-Type', 'text/html');
-
-  var _handles = require('./app' + req._parsedUrl.pathname+'.js');
-  console.log(_handles);
-  var _html = handlebars.compile(_handles);
-  res.send(_html({"name":"Jarvan"}));
-})
+render(app, {
+  root: path.join(__dirname, 'views'),
+  layout: 'template',
+  viewExt: 'html',
+  cache: false,
+  debug: true
+});
 
 
-app.listen(7000);
+app.use(function *() {
+  var users = [{name: 'Dead Horse'}, {name: 'Jack'}, {name: 'Tom'}];
+  yield this.render('content', {
+    users: users
+  });
+});
+
+if (process.env.NODE_ENV === 'test') {
+  module.exports = app.callback();
+} else {
+  app.listen(7001);
+  console.log('open http://localhost:7001')
+}
+
+app.on('error', function (err) {
+  console.log(err.stack)
+});

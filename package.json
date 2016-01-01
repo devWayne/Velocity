@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/devWayne/Vessel#readme",
   "dependencies": {
-    "express": "^4.13.3",
-    "handlebars": "^4.0.2"
+    "koa": "^1.1.2",
+    "koa-ejs": "^3.0.0",
+    "koa-route": "^3.0.0",
+    "lru-cache": "^4.0.0"
   }
 }
