@@ -1,0 +1,7 @@
+{
+    "id": "index",
+    "title": "用户页面",
+    "route":"/pets/:name",
+    "data":"",
+    "mock":""
+}

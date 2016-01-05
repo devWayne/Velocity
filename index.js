@@ -1,9 +1,13 @@
-var koa = require('koa');
-var app = koa();
-var path = require('path');
-var render = require('koa-ejs');
+const koa = require('koa');
+const path = require('path');
+const render = require('koa-ejs');
+const fetch = require('node-fetch');
 
-var routeList = ['/pets/:name', '/pets2/:name'];
+var app = koa();
+
+
+
+var routeList = ['/token','/token2'];
 
 
 var router = require('koa-router')();
@@ -26,41 +30,32 @@ app.use(function *() {
   });
 });*/
 
-var pets = {
-  list: function*() {
-    var names = Object.keys(db);
-    this.body = 'pets: ' + names.join(', ');
-  },
-
-  show: function*(name) {
-    this.body = 'test';
-  },
-  test: function*() {
-    var users = [{
-      name: 'Dead Horse'
-    }, {
-      name: 'Jack'
-    }, {
-      name: 'Tom'
-    }];
+var testGen = function*() {
+    var res = yield fetch('http://www.koonpu.com/v/search/keyword_ajax?keyword=1');
+    var resJsonObj = yield res.json();
+    //console.log(1);
+    
     yield this.render('content/content', {
-      users: users
+        content: resJsonObj    
     });
-  }
-};
+}
 
-//app.use(rt.get('/pets/:name', pets.show));
-
-
-routeList.forEach((_route, index) => {
-  router.get(_route, pets.test);
-
+app.use(function *(next){
+  var start = new Date;
+  yield next;
+  var ms = new Date - start;
+  console.log('%s %s - %s', this.method, this.url, ms);
 });
 
 
 
-app
-  .use(router.routes())
+routeList.forEach((_route, index) => {
+  router.get(_route, testGen);
+});
+
+
+
+app.use(router.routes())
 
 
 if (process.env.NODE_ENV === 'test') {
